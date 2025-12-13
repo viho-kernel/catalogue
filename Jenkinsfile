@@ -18,9 +18,10 @@ pipeline {
             stage ('version'){
                 steps {
                     def packageJson = readJSON file: 'package.json'
-                    packageVersion = packageJson.version
-                    echo "Application Version: ${appVersion}"
+                    env.appVersion = packageJson.version
+                    echo "Application Version: ${env.appVersion} "
             }
+        }
         }
         stage ('build'){
                 steps {
@@ -31,6 +32,7 @@ pipeline {
                     """
                 }
             }
+}
         stage ('zip') {
             steps {
                 sh """
