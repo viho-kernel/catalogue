@@ -26,21 +26,32 @@ pipeline {
             }
         }
 
-        stage('build') {
+        stage('Install Dependencies') {
             steps {
                 sh """
-                echo "Building application"
-                npm install
-                npm run build
+                echo "Installing npm dependencies 📩"
+                npm install 
+                echo"✅ Dependencies installed"
+
                 """
             }
         }
 
-        stage('zip') {
+        stage('build') {
             steps {
                 sh """
-                echo "Zipping build artifacts"
-                zip -q -r catalogue-${env.appVersion}.zip ./* -x .git/* -x node_modules/* -x *.zip
+                ls -la
+                zip -q -r catalogue-${env.appVersion}.zip ./* -x *.zip -x ".git"
+                """
+            }
+        }
+
+        stage ('Deploy') {
+            steps {
+                sh """
+                echo "Deploying catalogue-${env.appVersion}.zip to server..."
+                echo "✅ Deployment completed."
+                sleep 10
                 """
             }
         }
@@ -50,6 +61,14 @@ pipeline {
         always {
             echo "Pipeline completed."
             deleteDir()
+        }
+
+        success {
+            echo "Pipeline succeeded!"
+        }
+
+        failure {
+            echo "Pipeline failed!"
         }
     }
 }
