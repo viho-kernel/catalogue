@@ -77,7 +77,7 @@ pipeline {
                 build job: 'catalogue-deploy', wait: true,
                 parameters: [
                     string(name: 'version', value: "${appVersion}"),
-                    string(name: 'environment', value: "")
+                    string(name: 'environment', value: "dev")
                 ]
             }
         }
