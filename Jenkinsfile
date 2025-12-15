@@ -43,24 +43,25 @@ pipeline {
                 sh """
                 ls -la
                 zip -q -r catalogue-${env.appVersion}.zip ./* -x *.zip -x ".git"
+                ls -ltr
                 """
             }
         }
 
         stage('Artifact Uploader') {
             steps {
-        nexusArtifactUploader(
+          nexusArtifactUploader(
         nexusVersion: 'nexus3',
         protocol: 'http',
         nexusUrl: '${url}',
-        groupId: 'roboshop',
-        version: env.appVersion,
+        groupId: 'com.roboshop',
+        version: '${env.appVersion}',
         repository: 'catalogue',
         credentialsId: 'nexus-auth',
         artifacts: [
             [artifactId: catalogue,
              classifier: '',
-             file: 'catalogue-' + env.appVersion + '.zip',
+             file: 'catalogue-${env.appVersion}.zip',
              type: '.zip']
         ]
      )
