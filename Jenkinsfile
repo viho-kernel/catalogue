@@ -11,7 +11,7 @@ pipeline {
 
     environment {
         appVersion = ' '
-        url = '100.31.46.163:8081'
+        url = '172.31.78.62:8081'
     }
 
     options {
