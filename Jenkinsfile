@@ -20,11 +20,9 @@ pipeline {
         stage('version') {
     steps {
         script {
-            env.appVersion = sh(
-                script: "node -p \"require('./package.json').version\"",
-                returnStdout: true
-            ).trim()
-            echo "Application Version: ${env.appVersion}"
+             def packageJson = readJSON file: 'package.json'
+                    appVersion = packageJson.version
+                    echo "application version: $appVersion"
         }
     }
 }
@@ -44,31 +42,31 @@ pipeline {
             steps {
                 sh """
                 ls -la
-                zip -q -r catalogue-${env.appVersion}.zip ./* -x *.zip -x ".git"
+                zip -q -r catalogue.zip ./* -x *.zip -x ".git"
                 ls -ltr
                 """
             }
         }
 
-        // stage('Artifact Uploader') {
-        //     steps {
-        //         nexusArtifactUploader(
-        //             nexusVersion: 'nexus3',
-        //             protocol: 'http',
-        //             nexusUrl: "${url}",
-        //             groupId: 'com.roboshop',
-        //             version: "${appVersion}",
-        //             repository: 'catalogue',
-        //             credentialsId: 'nexus-auth',
-        //             artifacts: [
-        //                 [artifactId: 'catalogue',
-        //                  classifier: '',
-        //                  file: "catalogue.zip",
-        //                  type: 'zip']
-        //             ]
-        //         )
-        //     }
-        // }
+        stage('Artifact Uploader') {
+            steps {
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: "${url}",
+                    groupId: 'com.roboshop',
+                    version: "${appVersion}",
+                    repository: 'catalogue',
+                    credentialsId: 'nexus-auth',
+                    artifacts: [
+                        [artifactId: 'catalogue',
+                         classifier: '',
+                         file: "catalogue.zip",
+                         type: 'zip']
+                    ]
+                )
+            }
+        }
 
         stage ('Deploy') {
             steps {
