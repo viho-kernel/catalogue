@@ -74,10 +74,11 @@ pipeline {
 
         stage ('Deploy') {
             steps {
-                sh """
-                echo "✅ Deployment completed."
-                sleep 10
-                """
+                build job: 'catalogue-deploy', wait: true,
+                parameters: [
+                    string(name: 'version', value: "${appVersion}"),
+                    string(name: 'environment', value: "dev")
+                ]
             }
         }
     }
