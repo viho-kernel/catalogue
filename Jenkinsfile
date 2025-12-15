@@ -75,10 +75,10 @@ pipeline {
         stage ('Deploy') {
             steps {
                 build job: 'catalogue-deploy', wait: true,
-                def params = [
-                            string(name: 'version', value: "$appVersion"),
-                            string(name: 'environment', value: "dev")
-                        ]
+                parameters: [
+                    string(name: 'version', value: "${appVersion}"),
+                    string(name: 'environment', value: "dev")
+                ]
             }
         }
     }
