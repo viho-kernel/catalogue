@@ -2,7 +2,6 @@ pipeline {
     agent {
             label 'Agent-1'
         }
-    }
 
     environment {
         appVersion = ''
@@ -58,10 +57,10 @@ pipeline {
         repository: 'catalogue',
         credentialsId: 'nexus-auth',
         artifacts: [
-            [artifactId: catalogue,
+            [artifactId: 'catalogue',
              classifier: '',
              file: "catalogue-${env.appVersion}.zip",
-             type: '.zip']
+             type: 'zip']
         ]
      )
             }
@@ -92,6 +91,5 @@ pipeline {
             echo "Pipeline failed!"
         }
     }
-}
 
 }
