@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        appVersion = ''
+        appVersion = ' '
         url = '100.31.46.163:8081'
     }
 
@@ -17,13 +17,12 @@ pipeline {
     }
 
     stages {
-        stage('version') {
+        stage('Read package.json') {
             steps {
                 script {
-                     sh "ls -la"
             def packageJson = readJSON file: 'package.json'
-            env.appVersion = packageJson.version
-            echo "Application Version: ${env.appVersion}"
+            appVersion = packageJson.version
+            echo "Application Version: ${appVersion}"
                 }
             }
         }
