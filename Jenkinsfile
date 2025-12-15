@@ -5,6 +5,10 @@ pipeline {
         }
     }
 
+    tools {
+        git 'default'
+    }
+
     environment {
         appVersion = ' '
         url = '100.31.46.163:8081'
