@@ -17,15 +17,18 @@ pipeline {
     }
 
     stages {
-        stage('Read package.json') {
-            steps {
-                script {
-            def packageJson = readJSON file: 'package.json'
-            appVersion = packageJson.version
-            echo "Application Version: ${appVersion}"
-                }
-            }
+        stage('version') {
+    steps {
+        script {
+            env.appVersion = sh(
+                script: "node -p \"require('./package.json').version\"",
+                returnStdout: true
+            ).trim()
+            echo "Application Version: ${env.appVersion}"
         }
+    }
+}
+
 
         stage('Install Dependencies') {
             steps {
