@@ -1,16 +1,12 @@
 pipeline {
     agent {
-        node {
             label 'Agent-1'
         }
-    }
-    tools {
-        git 'Git-1'
     }
 
     environment {
         appVersion = ''
-        url = '172.31.76.23:8081'
+        url = '100.31.46.163:8081'
     }
 
     options {
@@ -56,15 +52,15 @@ pipeline {
           nexusArtifactUploader(
         nexusVersion: 'nexus3',
         protocol: 'http',
-        nexusUrl: '${url}',
+        nexusUrl: "${env.url}",
         groupId: 'com.roboshop',
-        version: '${env.appVersion}',
+        version: "${env.appVersion}",
         repository: 'catalogue',
         credentialsId: 'nexus-auth',
         artifacts: [
             [artifactId: catalogue,
              classifier: '',
-             file: 'catalogue-${env.appVersion}.zip',
+             file: "catalogue-${env.appVersion}.zip",
              type: '.zip']
         ]
      )
