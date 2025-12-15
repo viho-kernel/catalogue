@@ -1,6 +1,8 @@
 pipeline {
     agent {
+        node {
         label 'Agent-1'
+        }
     }
 
     environment {
@@ -50,15 +52,15 @@ pipeline {
         //         nexusArtifactUploader(
         //             nexusVersion: 'nexus3',
         //             protocol: 'http',
-        //             nexusUrl: "${env.url}",
+        //             nexusUrl: "${url}",
         //             groupId: 'com.roboshop',
-        //             version: "${env.appVersion}",
+        //             version: "${appVersion}",
         //             repository: 'catalogue',
         //             credentialsId: 'nexus-auth',
         //             artifacts: [
         //                 [artifactId: 'catalogue',
         //                  classifier: '',
-        //                  file: "catalogue-${env.appVersion}.zip",
+        //                  file: "catalogue.zip",
         //                  type: 'zip']
         //             ]
         //         )
