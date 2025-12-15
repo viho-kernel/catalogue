@@ -4,6 +4,9 @@ pipeline {
             label 'Agent-1'
         }
     }
+    tools {
+        git 'Default'
+    }
 
     environment {
         appVersion = ''
