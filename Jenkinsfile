@@ -10,9 +10,10 @@ pipeline {
     }
 
     environment {
-        appVersion = ' '
-        url = '100.31.46.163:8081'
-    }
+    appVersion = ''
+    url = '100.31.46.163:8081'
+}
+
 
     options {
         timeout(time: 1, unit: 'HOURS')
@@ -34,11 +35,11 @@ parameters {
     stages {
         stage('version') {
     steps {
-         script {
-                    def packageJson = readJSON file: 'package.json'
-                    packageVersion = packageJson.version
-                    echo "application version: $packageVersion"
-                }
+        script {
+            def packageJson = readJSON file: 'package.json'
+            appVersion = packageJson.version
+            echo "application version: ${appVersion}"
+        }
     }
 }
 
@@ -87,9 +88,10 @@ parameters {
             steps {
                 build job: 'catalogue-deploy', wait: true,
                 parameters: [
-                    string(name: 'version', value: "$appVersion"),
-                    string(name: 'environment', value: "dev")
-                ]
+    string(name: 'version', value: "${appVersion}"),
+    string(name: 'environment', value: "dev")
+]
+
             }
         }
     }
