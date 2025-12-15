@@ -5,7 +5,7 @@ pipeline {
         }
     }
     tools {
-        git 'Default'
+        git 'Git-1'
     }
 
     environment {
