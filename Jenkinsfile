@@ -1,7 +1,7 @@
 pipeline {
     agent {
-            label 'Agent-1'
-        }
+        label 'Agent-1'
+    }
 
     environment {
         appVersion = ''
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     def packageJson = readJSON file: 'package.json'
-                    env.appVersion = packageJson.version   // store in env so later stages can use it
+                    env.appVersion = packageJson.version
                     echo "Application Version: ${env.appVersion}"
                 }
             }
@@ -30,8 +30,7 @@ pipeline {
                 sh """
                 echo "Installing npm dependencies 📩"
                 npm install 
-                echo"✅ Dependencies installed"
-
+                echo "✅ Dependencies installed"
                 """
             }
         }
@@ -48,21 +47,21 @@ pipeline {
 
         stage('Artifact Uploader') {
             steps {
-          nexusArtifactUploader(
-        nexusVersion: 'nexus3',
-        protocol: 'http',
-        nexusUrl: "${env.url}",
-        groupId: 'com.roboshop',
-        version: "${env.appVersion}",
-        repository: 'catalogue',
-        credentialsId: 'nexus-auth',
-        artifacts: [
-            [artifactId: 'catalogue',
-             classifier: '',
-             file: "catalogue-${env.appVersion}.zip",
-             type: 'zip']
-        ]
-     )
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: "${env.url}",
+                    groupId: 'com.roboshop',
+                    version: "${env.appVersion}",
+                    repository: 'catalogue',
+                    credentialsId: 'nexus-auth',
+                    artifacts: [
+                        [artifactId: 'catalogue',
+                         classifier: '',
+                         file: "catalogue-${env.appVersion}.zip",
+                         type: 'zip']
+                    ]
+                )
             }
         }
 
@@ -91,5 +90,4 @@ pipeline {
             echo "Pipeline failed!"
         }
     }
-
 }
