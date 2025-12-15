@@ -45,30 +45,29 @@ pipeline {
             }
         }
 
-        stage('Artifact Uploader') {
-            steps {
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: "${env.url}",
-                    groupId: 'com.roboshop',
-                    version: "${env.appVersion}",
-                    repository: 'catalogue',
-                    credentialsId: 'nexus-auth',
-                    artifacts: [
-                        [artifactId: 'catalogue',
-                         classifier: '',
-                         file: "catalogue-${env.appVersion}.zip",
-                         type: 'zip']
-                    ]
-                )
-            }
-        }
+        // stage('Artifact Uploader') {
+        //     steps {
+        //         nexusArtifactUploader(
+        //             nexusVersion: 'nexus3',
+        //             protocol: 'http',
+        //             nexusUrl: "${env.url}",
+        //             groupId: 'com.roboshop',
+        //             version: "${env.appVersion}",
+        //             repository: 'catalogue',
+        //             credentialsId: 'nexus-auth',
+        //             artifacts: [
+        //                 [artifactId: 'catalogue',
+        //                  classifier: '',
+        //                  file: "catalogue-${env.appVersion}.zip",
+        //                  type: 'zip']
+        //             ]
+        //         )
+        //     }
+        // }
 
         stage ('Deploy') {
             steps {
                 sh """
-                echo "Deploying catalogue-${env.appVersion}.zip to server..."
                 echo "✅ Deployment completed."
                 sleep 10
                 """
